@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Safety Slogan Generator</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin: 10px;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+
+        input {
+            width: 90%;
+            max-width: 400px;
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+        <h2>Write Your Road Safety Slogan</h2>
+        <input type="text" id="name" placeholder="Enter your name here">
+        <br> <br>
+        <input type="text" id="employeeCode" placeholder="Enter your mployee code here">
+        <br> <br>
+        <input type="text" id="slogan" placeholder="Enter your slogan here">
+        <br>
+        <button onclick="generateImage()">Generate</button>
+        <button onclick="downloadImage()">Download</button>
+    </main>
+
+    <canvas id="canvas"></canvas>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
