@@ -25,7 +25,7 @@ function generateImage() {
   }
   else {
     let conversionRate = 0.04
-    if(charCount > 11)
+    if (charCount > 11)
       conversionRate = 0.025;
     ctx.font = `bold ${canvas.width * conversionRate}px Arial`;
     ctx.fillStyle = "black";
@@ -63,7 +63,6 @@ function generateImage() {
 //   );
 // }
 
-
 function wrapText(text, x, y, maxWidth, lineHeight) {
   const words = text.split(" ");
   let line = "";
@@ -83,10 +82,10 @@ function wrapText(text, x, y, maxWidth, lineHeight) {
 
 function downloadImage() {
   const name = document.getElementById("name").value.trim();
-  console.log("🚀 ~ downloadImage ~ name:", name)
   const employeeCode = document.getElementById("employeeCode").value.trim();
-  console.log("🚀 ~ downloadImage ~ employeeCode:", employeeCode)
   const slogan = document.getElementById("slogan").value.trim();
+  console.log("🚀 ~ downloadImage ~ name:", name)
+  console.log("🚀 ~ downloadImage ~ employeeCode:", employeeCode)
   console.log("🚀 ~ downloadImage ~ slogan:", slogan)
 
   if (!name || !employeeCode || !slogan) {
@@ -106,17 +105,31 @@ function downloadImage() {
 
 
 function storeData(name, employeeCode, slogan) {
-  fetch("https://script.google.com/macros/s/AKfycby5wVHLC3ZunW1pW7xGcw8z1-g2-dHdwvxYM3pfH6851T33Hale9GOcnQtxcJi8aoY/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwT7ZGUv6BoX2mvVw48TwHVAKA9Iw5qi81TQXP3VLM_-pJEhKZxDImzat6Z3XpELIhR/exec", {
     method: "POST",
-    mode: "no-cors",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/x-www-form-urlencoded"
     },
-    body: JSON.stringify({
+    body: new URLSearchParams({
       name: name,
       employeeCode: employeeCode,
       slogan: slogan
     })
   }).catch(err => console.error("Sheet error:", err));
+  console.log('stored');
 }
 
+// fetch("https://script.google.com/macros/s/AKfycbwT7ZGUv6BoX2mvVw48TwHVAKA9Iw5qi81TQXP3VLM_-pJEhKZxDImzat6Z3XpELIhR/exec", {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/x-www-form-urlencoded"
+//   },
+//   body: new URLSearchParams({
+//     name: "Test User",
+//     employeeCode: "EMP001",
+//     slogan: "Safety First"
+//   })
+// })
+// .then(res => res.text())
+// .then(txt => console.log("Response:", txt))
+// .catch(err => console.error(err));
