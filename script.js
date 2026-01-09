@@ -1,7 +1,7 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const img = new Image();
-img.src = "truck.jpeg";
+img.src = "truck2.jpeg";
 
 function resizeCanvas() {
   const ratio = img.width / img.height;
@@ -26,11 +26,11 @@ function generateImage() {
   else {
     let conversionRate = 0.04
     if (charCount > 11)
-      conversionRate = 0.025;
+      conversionRate = 0.026;
     ctx.font = `bold ${canvas.width * conversionRate}px Arial`;
     ctx.fillStyle = "black";
     ctx.textAlign = "center";
-    wrapText(text, canvas.width / 2, canvas.height * 0.57, canvas.width * 0.28, canvas.width * 0.05);
+    wrapText(text, canvas.width / 2, canvas.height * 0.53, canvas.width * 0.28, canvas.width * 0.03);
   }
 }
 
