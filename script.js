@@ -3,11 +3,24 @@ const ctx = canvas.getContext("2d");
 const img = new Image();
 img.src = "truck2.jpeg";
 
+// function resizeCanvas() {
+//   const ratio = img.width / img.height;
+//   let width = window.innerWidth * 0.5;
+//   if (window.innerWidth <= 600)
+//     width = window.innerWidth * 0.95;
+//   canvas.width = width;
+//   canvas.height = width / ratio;
+//   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+// }
+
 function resizeCanvas() {
   const ratio = img.width / img.height;
-  let width = window.innerWidth * 0.5;
-  if (window.innerWidth <= 600)
-    width = window.innerWidth * 0.95;
+  const previewBox = document.querySelector(".preview-box");
+  let width = previewBox.clientWidth - 30;
+
+  // Safety fallback if container not ready
+  if (width < 300) width = 300;
+
   canvas.width = width;
   canvas.height = width / ratio;
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -34,35 +47,6 @@ function generateImage() {
   }
 }
 
-// function generateImage() {
-//   resizeCanvas();
-
-//   const text = document.getElementById("slogan").value.trim();
-//   const charCount = text.length;
-
-//   // Base font size relative to canvas width
-//   let baseFontSize = canvas.width * 0.04;
-
-//   // Reduce font size if text exceeds 11 characters
-//   if (charCount > 11) {
-//     const reductionFactor = Math.min((charCount - 11) * 0.0025, 0.02);
-//     baseFontSize = baseFontSize * (1 - reductionFactor);
-//   }
-
-//   ctx.font = `bold ${baseFontSize}px Arial`;
-//   ctx.fillStyle = "black";
-//   ctx.textAlign = "center";
-//   ctx.textBaseline = "middle";
-
-//   wrapText(
-//     text,
-//     canvas.width / 2,
-//     canvas.height * 0.56,
-//     canvas.width * 0.7,
-//     baseFontSize * 1.3
-//   );
-// }
-
 function wrapText(text, x, y, maxWidth, lineHeight) {
   const words = text.split(" ");
   let line = "";
@@ -81,20 +65,22 @@ function wrapText(text, x, y, maxWidth, lineHeight) {
 }
 
 function downloadImage() {
-  const name = document.getElementById("name").value.trim();
   const employeeCode = document.getElementById("employeeCode").value.trim();
   const slogan = document.getElementById("slogan").value.trim();
-  console.log("🚀 ~ downloadImage ~ name:", name)
   console.log("🚀 ~ downloadImage ~ employeeCode:", employeeCode)
   console.log("🚀 ~ downloadImage ~ slogan:", slogan)
 
-  if (!name || !employeeCode || !slogan) {
+  if (!employeeCode || !slogan) {
     alert("Please fill all fields");
+    return;
+  }
+  else if (employeeCode.length !== 3) {
+    alert('enter correct employee code');
     return;
   }
 
   // 1. Store data in Google Sheet
-  storeData(name, employeeCode, slogan);
+  storeData(employeeCode, slogan);
 
   // 2. Download image
   const link = document.createElement("a");
@@ -102,7 +88,6 @@ function downloadImage() {
   link.href = canvas.toDataURL("image/png");
   link.click();
 }
-
 
 function storeData(name, employeeCode, slogan) {
   fetch("https://script.google.com/macros/s/AKfycbwT7ZGUv6BoX2mvVw48TwHVAKA9Iw5qi81TQXP3VLM_-pJEhKZxDImzat6Z3XpELIhR/exec", {

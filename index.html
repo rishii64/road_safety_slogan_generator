@@ -4,49 +4,37 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Road Safety Slogan Generator</title>
-    <style>
-        body {
-            font-family: Arial;
-            text-align: center;
-            margin: 10px;
-        }
-
-        canvas {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #ccc;
-        }
-
-        input {
-            width: 90%;
-            max-width: 400px;
-            padding: 10px;
-        }
-
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <div class="page">
+        <div class="card">
 
-    <main>
-        <h2>Write Your Road Safety Slogan</h2>
-        <input type="text" id="name" placeholder="Enter your name here">
-        <br> <br>
-        <input type="text" id="employeeCode" placeholder="Enter your employee code here">
-        <br> <br>
-        <input type="text" id="slogan" placeholder="Enter your slogan here">
-        <br>
-        <button onclick="generateImage()">Generate</button>
-        <button onclick="downloadImage()">Download</button>
-    </main>
+            <div class="header">
+                <h1>Road Safety Slogan Generator</h1>
+                <p>Create campaign-ready slogan visuals instantly</p>
+            </div>
 
-    <canvas id="canvas"></canvas>
+            <div class="controls">
+                <input type="number" id="employeeCode" placeholder="Employee Code">
+                <input type="text" id="slogan" placeholder="Your Slogan Here">
+                <button onclick="generateImage();downloadImage()">Generate & Download</button>
+            </div>
+
+            <div class="preview">
+                <h3>Live Preview :</h3>
+                <div class="preview-box">
+                    <!-- Canvas Preview -->
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
+
 
 </html>
