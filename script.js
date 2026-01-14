@@ -1,7 +1,7 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const img = new Image();
-img.src = "truck2.jpeg";
+img.src = "./truck2.png";
 
 function resizeCanvas() {
   const ratio = img.width / img.height;
@@ -57,7 +57,7 @@ function wrapText(text) {
   // --- Blank panel bounding box in CSS space ---
   const boxLeft = displayWidth * 0.3;
   const boxRight = displayWidth * 0.7;
-  const boxTop = displayHeight * 0.4;
+  const boxTop = displayHeight * 0.45;
   const boxBottom = displayHeight * 0.615;
 
   const boxWidth = boxRight - boxLeft;
