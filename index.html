@@ -11,16 +11,24 @@
     <div class="page">
         <div class="card">
 
-            <div class="header">
-                <h1>Road Safety Slogan Generator</h1>
-                <p>Create campaign-ready slogan visuals instantly</p>
+            <div class="header top-band">
+                <img src="./logo2.png" class="logo">
+                <div>
+                    <h1>Road Safety Slogan Generator</h1>
+                    <p>Create campaign-ready slogan visuals instantly</p>
+                </div>
             </div>
 
             <div class="controls">
-                <input type="number" id="employeeCode" placeholder="Employee Code">
-                <input type="text" id="slogan" placeholder="Your Slogan Here">
-                <button onclick="generateImage();downloadImage()">Generate & Download</button>
+                <img class="signal" src="./traffic_signal.jpg">
+                <!-- <div class="inputs"> -->
+                    <input type="number" id="employeeCode" placeholder="Employee Code">
+                    <input type="text" id="slogan" placeholder="Your Slogan Here">
+                    <button onclick="generateImage();downloadImage()">Generate & Download</button>
+                <!-- </div> -->
             </div>
+
+            <div class="divider"></div>
 
             <div class="preview">
                 <h3>Live Preview :</h3>

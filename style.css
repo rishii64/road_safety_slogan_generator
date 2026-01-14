@@ -6,6 +6,8 @@ body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #f5f7fa, #eef1f5);
+    background: url(./bg.avif) no-repeat;
+    background-size: cover;
 }
 
 .page {
@@ -21,6 +23,7 @@ body {
     border-radius: 14px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     padding: 30px 40px;
+    backdrop-filter: blur(10px);
 }
 
 .header {
@@ -34,16 +37,52 @@ body {
 }
 
 .header p {
-    margin-top: 6px;
+    /* margin-top: 6px; */
     color: #666;
+    color: whitesmoke;
     font-size: 14px;
+    margin-bottom: 0.2rem;
 }
+
+
+.top-band {
+    background: #1f2f5c;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 11vw;
+}
+
+.logo {
+    height: 50px;
+    background: transparent;
+    border-radius: 3px;
+}
+
+.divider {
+    height: 6px;
+    background: repeating-linear-gradient(45deg,
+            #f9c400,
+            #f9c400 10px,
+            #111 10px,
+            #111 20px);
+    border-radius: 4px;
+    margin: 20px 0;
+}
+
 
 .controls {
     margin-top: 25px;
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+}
+
+.signal {
+    height: 40px;
 }
 
 .controls input {
@@ -66,10 +105,16 @@ body {
     font-size: 14px;
     cursor: pointer;
     white-space: nowrap;
+
+    /* background: #f9c400;
+    color: #1f2f5c;
+    font-weight: 600; */
+
 }
 
 .controls button:hover {
     background: #0d47a1;
+    /* background: #ffda2d; */
 }
 
 .preview {
@@ -132,5 +177,15 @@ canvas {
 
     .controls button {
         text-align: center;
+    }
+
+    .top-band {
+        flex-direction: column;
+        gap: 4vh;
+    }
+    .signal{
+        /* height: 100px; */
+        width: 100px;
+        display: none;
     }
 }

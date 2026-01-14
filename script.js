@@ -3,27 +3,35 @@ const ctx = canvas.getContext("2d");
 const img = new Image();
 img.src = "truck2.jpeg";
 
-// function resizeCanvas() {
-//   const ratio = img.width / img.height;
-//   let width = window.innerWidth * 0.5;
-//   if (window.innerWidth <= 600)
-//     width = window.innerWidth * 0.95;
-//   canvas.width = width;
-//   canvas.height = width / ratio;
-//   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-// }
-
 function resizeCanvas() {
   const ratio = img.width / img.height;
   const previewBox = document.querySelector(".preview-box");
-  let width = previewBox.clientWidth - 30;
 
-  // Safety fallback if container not ready
-  if (width < 300) width = 300;
+  // CSS display size
+  let displayWidth = previewBox.clientWidth - 30;
+  if (displayWidth < 300) displayWidth = 300;
+  let displayHeight = displayWidth / ratio;
 
-  canvas.width = width;
-  canvas.height = width / ratio;
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  // Get device pixel ratio
+  const dpr = window.devicePixelRatio || 1;
+
+  // Set canvas internal resolution scaled for DPR
+  canvas.width = displayWidth * dpr;
+  canvas.height = displayHeight * dpr;
+
+  // Set canvas CSS display size
+  canvas.style.width = displayWidth + "px";
+  canvas.style.height = displayHeight + "px";
+
+  // Reset transform before scaling
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  // Improve scaling quality
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+
+  // Draw base image
+  ctx.drawImage(img, 0, 0, displayWidth, displayHeight);
 }
 
 img.onload = resizeCanvas;
@@ -31,44 +39,82 @@ window.onresize = resizeCanvas;
 
 function generateImage() {
   resizeCanvas();
-  const text = document.getElementById("slogan").value;
+  const text = document.getElementById("slogan").value.trim();
   const charCount = text.length;
-  if (charCount > 20) {
-    window.alert("charater must be less than 11 characters");
+
+  if (charCount > 50) {
+    window.alert("Character must be less than 50");
+    return;
   }
-  else {
-    let conversionRate = 0.04
-    if (charCount > 11)
-      conversionRate = 0.026;
-    ctx.font = `bold ${canvas.width * conversionRate}px Arial`;
-    ctx.fillStyle = "black";
-    ctx.textAlign = "center";
-    wrapText(text, canvas.width / 2, canvas.height * 0.53, canvas.width * 0.28, canvas.width * 0.03);
-  }
+  wrapText(text);
 }
 
-function wrapText(text, x, y, maxWidth, lineHeight) {
-  const words = text.split(" ");
-  let line = "";
-  for (let n = 0; n < words.length; n++) {
-    let testLine = line + words[n] + " ";
-    let metrics = ctx.measureText(testLine);
-    if (metrics.width > maxWidth && n > 0) {
-      ctx.fillText(line, x, y);
-      line = words[n] + " ";
-      y += lineHeight;
-    } else {
-      line = testLine;
+function wrapText(text) {
+  // --- Always work in CSS pixel coordinates ---
+  const displayWidth = parseFloat(canvas.style.width);
+  const displayHeight = parseFloat(canvas.style.height);
+
+  // --- Blank panel bounding box in CSS space ---
+  const boxLeft = displayWidth * 0.3;
+  const boxRight = displayWidth * 0.7;
+  const boxTop = displayHeight * 0.4;
+  const boxBottom = displayHeight * 0.615;
+
+  const boxWidth = boxRight - boxLeft;
+  const boxHeight = boxBottom - boxTop;
+
+  // --- Base font size in CSS pixels ---
+  let fontSize = displayWidth * 0.040;
+  ctx.font = `bold ${fontSize}px Arial`;
+  ctx.fillStyle = "black";
+  ctx.textAlign = "center";
+
+  // --- Build wrapped lines ---
+  function buildLines() {
+    const words = text.split(" ");
+    let line = "";
+    let lines = [];
+
+    for (let n = 0; n < words.length; n++) {
+      let testLine = line + words[n] + " ";
+      let metrics = ctx.measureText(testLine);
+
+      if (metrics.width > boxWidth && n > 0) {
+        lines.push(line.trim());
+        line = words[n] + " ";
+      } else {
+        line = testLine;
+      }
     }
+    lines.push(line.trim());
+    return lines;
   }
-  ctx.fillText(line, x, y);
+
+  let lines = buildLines();
+
+  // --- Shrink font if total height exceeds panel ---
+  let lineHeight = fontSize * 1.25;
+  while ((lines.length * lineHeight) > boxHeight) {
+    fontSize *= 0.82;
+    ctx.font = `bold ${fontSize}px Arial`;
+    lineHeight = fontSize * 1.2;
+    lines = buildLines();
+  }
+
+  // --- Center inside box ---
+  const totalTextHeight = lines.length * lineHeight;
+  let startY = boxTop + (boxHeight - totalTextHeight) / 2 + fontSize;
+  const centerX = boxLeft + (boxWidth / 2);
+
+  // --- Draw ---
+  for (let i = 0; i < lines.length; i++) {
+    ctx.fillText(lines[i], centerX, startY + (i * lineHeight));
+  }
 }
 
 function downloadImage() {
   const employeeCode = document.getElementById("employeeCode").value.trim();
   const slogan = document.getElementById("slogan").value.trim();
-  console.log("🚀 ~ downloadImage ~ employeeCode:", employeeCode)
-  console.log("🚀 ~ downloadImage ~ slogan:", slogan)
 
   if (!employeeCode || !slogan) {
     alert("Please fill all fields");
