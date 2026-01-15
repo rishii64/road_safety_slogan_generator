@@ -43,7 +43,7 @@ function generateImage() {
   const charCount = text.length;
 
   if (charCount > 50) {
-    window.alert("Character must be less than 50");
+    window.alert("Character must be less than 50..❗");
     return;
   }
   wrapText(text);
@@ -116,33 +116,52 @@ function downloadImage() {
   const employeeCode = document.getElementById("employeeCode").value.trim();
   const slogan = document.getElementById("slogan").value.trim();
 
-  if (!employeeCode || !slogan) {
-    alert("Please fill all fields");
+  if (!employeeCode & !slogan) {
+    showToast("Please fill all fields‼️");
     return;
   }
-  else if (employeeCode.length !== 3) {
-    alert('enter correct employee code');
+  else if (!employeeCode) {
+    showToast("Enter Employee Code‼️")
+  }
+  else if (employeeCode.length !== 6) {
+    showToast("Enter valid 6-digit employee code❗");
     return;
   }
-
-  // 1. Store data in Google Sheet
-  storeData(employeeCode, slogan);
-
-  // 2. Download image
-  const link = document.createElement("a");
-  link.download = "road_safety_slogan.png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
+  else if (!slogan) {
+    showToast("Enter a Slogan ‼️")
+  }
+  else {
+    showToast("Success ✅")
+    setInterval(() => {
+      // 1. Store data in Google Sheet
+      storeData(employeeCode, slogan);
+  
+      // 2. Download image
+      const link = document.createElement("a");
+      link.download = "road_safety_slogan.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }, 1000);
+  }
 }
 
-function storeData(name, employeeCode, slogan) {
-  fetch("https://script.google.com/macros/s/AKfycbwT7ZGUv6BoX2mvVw48TwHVAKA9Iw5qi81TQXP3VLM_-pJEhKZxDImzat6Z3XpELIhR/exec", {
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
+function storeData(employeeCode, slogan) {
+  fetch("https://script.google.com/macros/s/AKfycbzI4tSiouGxfLxiEaKPJC3DpbHvlZg4aohchEd_3z-VT0vC0jnrOse8Oa0QNh98HRVHiA/exec", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
     body: new URLSearchParams({
-      name: name,
       employeeCode: employeeCode,
       slogan: slogan
     })

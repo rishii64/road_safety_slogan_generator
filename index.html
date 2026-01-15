@@ -22,9 +22,9 @@
             <div class="controls">
                 <img class="signal" src="./traffic_signal.jpg">
                 <!-- <div class="inputs"> -->
-                    <input type="number" id="employeeCode" placeholder="Employee Code">
-                    <input type="text" id="slogan" placeholder="Your Slogan Here">
-                    <button onclick="generateImage();downloadImage()">Generate & Download</button>
+                <input type="text" id="employeeCode" placeholder="6 Digit Employee Code">
+                <input type="text" id="slogan" placeholder="Your Slogan Here">
+                <button onclick="generateImage();downloadImage()">Generate & Download</button>
                 <!-- </div> -->
             </div>
 
@@ -37,9 +37,10 @@
                     <canvas id="canvas"></canvas>
                 </div>
             </div>
-
         </div>
     </div>
+    
+    <div id="toast" class="toast"></div>
 
     <script src="script.js"></script>
 </body>
