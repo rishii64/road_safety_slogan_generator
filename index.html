@@ -21,11 +21,9 @@
 
             <div class="controls">
                 <img class="signal" src="./traffic_signal.jpg">
-                <!-- <div class="inputs"> -->
-                <input type="text" id="employeeCode" placeholder="6 Digit Employee Code">
+                <input type="text" id="employeeCode" maxlength="6" inputmode="numeric" placeholder="6 Digit Employee Code">
                 <input type="text" id="slogan" placeholder="Your Slogan Here">
-                <button onclick="generateImage();downloadImage()">Generate & Download</button>
-                <!-- </div> -->
+                <button id="generateBtn" onclick="handleGenerate()">Generate & Download</button>
             </div>
 
             <div class="divider"></div>
@@ -41,9 +39,7 @@
     </div>
     
     <div id="toast" class="toast"></div>
-
-    <script src="script.js"></script>
+    <script src="scripts.js"></script>
 </body>
-
 
 </html>
