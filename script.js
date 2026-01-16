@@ -130,19 +130,24 @@ function downloadImage() {
   else if (!slogan) {
     showToast("Enter a Slogan ‼️")
   }
-  else {
-    showToast("Success ✅")
-    setInterval(() => {
-      // 1. Store data in Google Sheet
-      storeData(employeeCode, slogan);
-  
-      // 2. Download image
-      const link = document.createElement("a");
-      link.download = "road_safety_slogan.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    }, 1000);
-  }
+
+  showToast("Success ✅")
+
+  // Run once after short delay
+  setTimeout(() => {
+    // Store in Google Sheet
+    storeData(employeeCode, slogan);
+
+    // Download Image
+    const link = document.createElement("a");
+    link.download = "Baxter_road_safety_slogan.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+
+    // Optional: Clear inputs after successful download
+    document.getElementById("employeeCode").value = "";
+    document.getElementById("slogan").value = "";
+  }, 800);
 }
 
 function showToast(message) {
