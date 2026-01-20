@@ -42,8 +42,8 @@ function generateImage() {
   const text = document.getElementById("slogan").value.trim();
   const charCount = text.length;
 
-  if (charCount > 50) {
-    window.alert("Character must be less than 50..❗");
+  if (charCount > 100) {
+    window.alert("Slogan must be about 100 characters❗");
     return;
   }
   wrapText(text);
